@@ -8,17 +8,18 @@ const API_KEY = 'kdt=RNfNZsgXfO8gOOIk3TfOuKCI4JYEhfVgBzxPhL31;twid="u=1713605010
 // Creating a new Rettiwt instance using the API_KEY
 const rettiwt = new Rettiwt(API_KEY);
 
-// Define a route to handle user data by URL
+// Define a route to search for tweets by criteria
 app.get('/:username', (req, res) => {
   const username = req.params.username;
 
-  // Fetching the details of the user whose username is specified in the URL
-  rettiwt.user.details(username)
-    .then(details => {
-      // Render the user data on the page
+  rettiwt.tweet.search({
+    fromUsers: [username]
+  })
+    .then(data => {
+      // Render the search results on the page
       res.send(`
-        <h1>User Data for ${username}</h1>
-        <pre>${JSON.stringify(details, null, 2)}</pre>
+        <h1>Tweets by ${username}</h1>
+        <pre>${JSON.stringify(data, null, 2)}</pre>
       `);
     })
     .catch(error => {
